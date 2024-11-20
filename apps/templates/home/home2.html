@@ -1,0 +1,215 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Operations</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 20px;
+            color: rgb(4, 4, 41);
+            background-color: rgb(255, 255, 255);
+            transition: all ease-in-out 0.3s;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            background-color: rgb(123, 184, 206);
+            border-radius: 10px;
+        }
+
+        .header img {
+            width: 250px;
+            height: 170px;
+            border-radius: 50px;
+            margin-right: 40px;
+        }
+
+        .header h2 {
+            font-size: 28px;
+            margin-bottom: 0;
+            color: rgb(234, 234, 241);
+        }
+
+        .content {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .left-section,
+        .right-section {
+            flex: 1;
+            margin-right: 40px;
+            margin-left: 300px;
+
+        }
+
+        .right-section {
+            margin-top: 100px;
+            margin-right: 0;
+            max-width: 800px;
+            margin-left: 90px;
+            margin-left: 400px;
+
+        }
+
+        .chart-container {
+            max-width: 1200px;
+            margin-left: 20px;
+            margin-top: 100px;
+            margin-left: 300px;
+
+        }
+
+        .li {
+            margin: 20px;
+            padding: 20px;
+            font-weight: 600;
+            font-size: 18px;
+            list-style: none;
+            color: rgb(28, 28, 82);
+        }
+
+        .li :hover {
+            color: white;
+        }
+
+        .div-li {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .a {
+            text-decoration: none;
+        }
+
+        .small-input {
+            width: 150px;
+            font-size: 0.9em;
+        }
+        .monthoa{
+            margin-left: 390px;
+            margin-top: 50px;
+        }
+    </style>
+
+
+
+    <div class="right-section">
+        <!-- Distinct DA Section -->
+        <section class="mb-5">
+            <h4>
+             Specific General OA Count:
+            </h4>
+            </p>Total: <strong>{{ oa_count }}</strong></p>
+            <ul class="list-group">
+                {% for oa in oa_counts %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ oa.oa }}
+                    <span class="badge badge-primary badge-pill">{{ oa.count }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+
+        <!-- Date Statistics Section -->
+        <section class="mb-5">
+            <h4>
+            Statistics from Date
+            </h4>
+            <form method="GET">
+                <input type="date" name="date" class="form-control small-input" placeholder="YYYY-MM-DD">
+                <button type="submit" class="btn btn-primary">Filter by Date</button>
+            </form>
+
+            {% if date_stats %}
+            <h4>Statistics for Date: {{ date_stats.selected_date|date:"Y-m-d" }}</h4>
+            <p>Total OA Count for Date: {{ date_stats.dict_count }}</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>OA</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for oa_stat in date_stats.dict_oa %}
+                    <tr>
+                        <td>{{ oa_stat.oa }}</td>
+                        <td>{{ oa_stat.count }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2">No data available for this date.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </section>
+    
+    </div>
+<div class="monthoa">
+    <form method="GET"  class="form-inline all">
+        <div class="form-group">
+            <h5 for="month" class="mr-2 ">Select Month (1-12):</h5>
+            <input type="number" id="month" name="month" min="1" max="12" value="{{ month_query }}" class="form-control mr-2" required>
+        </div>
+        <button type="submit" class="btn btn-dark">Filter</button>
+    </form>
+</div>
+    {% if month_query and chart %}
+        <div class="chart-container mt-4">
+            <h6>Monthly OA Chart for Month: {{ month_query }}</h6>
+            <div style="width: 1000px;">
+                {{ chart|safe }}
+            </div>
+        </div>
+    {% else %}
+        <p class="mt-4">No data available for the selected month. Please choose a different month.</p>
+    {% endif %}
+
+
+   
+    
+
+   
+
+
+    <!-- Bootstrap Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+
+{% endblock content %}

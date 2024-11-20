@@ -1,0 +1,43 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Upload CSV {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ file_type|title }} Files - OA Charts</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <style>
+        .charts{
+            margin-top: 150px;
+            margin-left: 400px;
+        }
+        .div1{
+            margin-top: 50px;
+        }
+    </style>
+
+    <div class="charts">
+        <h1><p class="text-info">{{ file_type|title }} Files</p>  </h1>
+
+        {% for chart in charts %}
+        <h3>File: {{ chart.supplement_name}}</h3>
+        
+        <div class="div1">{{ chart.oa_chart|safe }}</div>
+    
+        <div class="div1">{{ chart.sms_chart|safe }}</div>
+    {% endfor %}
+    </div>
+ 
+
+
+</body>
+</html>
+{% endblock content %}
