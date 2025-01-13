@@ -13,31 +13,63 @@
     <title>{{ file_type|title }} Files - OA Charts</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
-<body>
+<body> 
+
     <style>
-        .charts{
-            margin-top: 150px;
-            margin-left: 400px;
-        }
-        .div1{
-            margin-top: 50px;
+        .left{
+            margin-left: 350px;
         }
     </style>
+<!-- 
+<div  class="left">
+    <h2>{{ file_type|title }} Files</h2>
+    <ul>
+        {% for file in files %}
+            <li>
+                File ID: {{ file.file_id }},
+                Timestamp: {{ file.timestamp }},
+                File Type: {{ file.file_type }}
+            </li>
+        {% endfor %}
+    </ul> -->
+<div class="left">
+<!-- 
+    {% for data in file_type_data %}
+    <h3>File Type: {{ data.file_type }}</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>OA</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for oa in data.oa_counts %}
+          <tr>
+            <td>{{ oa.oa }}</td>
+            <td>{{ oa.count }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endfor %}
+  
+            -->
 
-    <div class="charts">
-        <h1><p class="text-info">{{ file_type|title }} Files</p>  </h1>
 
-        {% for chart in charts %}
-        <h3>File: {{ chart.supplement_name}}</h3>
-        
-        <div class="div1">{{ chart.oa_chart|safe }}</div>
-    
-        <div class="div1">{{ chart.sms_chart|safe }}</div>
+  {% for file in file_type_data %}
+  <h2>File Type: {{ file.file_type }}</h2>
+  <ul>
+    {% for oa in file.oa_counts %}
+      <li>OA: {{ file.oa }} - Count: {{ file.count }}</li>
     {% endfor %}
-    </div>
- 
+  </ul>
+{% endfor %}
 
 
+
+</div>
 </body>
 </html>
+
 {% endblock content %}

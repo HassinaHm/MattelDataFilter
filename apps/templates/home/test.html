@@ -1,0 +1,47 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OA Counts</title>
+</head>
+<body>
+    <div style="margin-top: 70px; margin-left: 300px;">
+  <h2 >Total Unique OAs: {{ oa_count }}</h2>
+
+
+  <table>
+    <thead>
+      <tr>
+        <th>OA</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for oa, count in oa_counts %}
+        <tr>
+          <td>{{ oa }}</td>
+          <td>{{ count }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+</body>
+</html>
+
+
+
+
+
+
+{% endblock content %}

@@ -26,6 +26,19 @@ ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets')
 # Allow all hosts for development purposes
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']  # Remove the dynamic server variable
 
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'https://localhost:9200',
+        'http_auth': ('elastic', 'Fv*hf7yk*pIPr1D9U_4B'),
+        'use_ssl': True,
+        'verify_certs': True,
+        'ca_certs': 'C:/Users/HP/Desktop/Elasticsearch/elasticsearch-8.17.0/config/certs/http_ca.crt',
+    },
+}
+
+
+#   basic_auth=("elastic", "Fv*hf7yk*pIPr1D9U_4B")
+
 # CSRF trusted origins for local development
 CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://127.0.0.1']
 
